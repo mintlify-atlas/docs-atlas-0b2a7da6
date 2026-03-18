@@ -1,0 +1,208 @@
+---
+title: "API overview"
+description: "Complete reference for the WP Manager Pro REST API, including all endpoints, authentication requirements, and response formats."
+---
+
+The WP Manager Pro REST API lets you manage every aspect of your WordPress site programmatically. All endpoints are registered under the `wp-manager-pro/v1` namespace.
+
+**Base URL:** `https://example.com/wp-json/wp-manager-pro/v1`
+
+<Info>
+  All endpoints require a valid WordPress nonce passed in the `X-WP-Nonce` header and the `manage_options` capability (WordPress Administrator role).
+</Info>
+
+## Request format
+
+Request bodies should be sent as JSON (`Content-Type: application/json`) unless an endpoint accepts file uploads, in which case use `multipart/form-data`.
+
+## Response format
+
+All responses are JSON. Successful responses include an HTTP `2xx` status code. Error responses include a `code` and `message` field.
+
+## Common error responses
+
+| Status | Meaning |
+|--------|---------|
+| `400` | Bad request — missing or invalid parameters |
+| `401` | Not authenticated — nonce missing or invalid |
+| `403` | Insufficient permissions or protected resource |
+| `404` | Resource not found |
+| `500` | Server-side error |
+
+## All endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/dashboard` | Site stats & health |
+| GET | `/plugins` | List all plugins |
+| POST | `/plugins/activate` | Activate plugin |
+| POST | `/plugins/deactivate` | Deactivate plugin |
+| DELETE | `/plugins/delete` | Delete plugin |
+| POST | `/plugins/install` | Install from WP.org |
+| GET | `/plugins/search` | Search WP.org |
+| POST | `/plugins/upload` | Upload plugin ZIP |
+| GET | `/plugins/export` | Create plugin ZIP export |
+| GET | `/plugins/download` | Stream plugin ZIP download |
+| POST | `/plugins/update` | Update plugin to latest version |
+| POST | `/plugins/install-version` | Install specific plugin version |
+| GET | `/themes` | List all themes |
+| POST | `/themes/activate` | Activate theme |
+| DELETE | `/themes/delete` | Delete theme |
+| POST | `/themes/install` | Install from WP.org |
+| GET | `/themes/search` | Search WP.org |
+| POST | `/themes/upload` | Upload theme ZIP |
+| GET | `/themes/export` | Create theme ZIP export |
+| GET | `/themes/download` | Stream theme ZIP download |
+| POST | `/themes/update` | Update theme to latest version |
+| POST | `/themes/install-version` | Install specific theme version |
+| GET | `/files` | List directory contents |
+| GET | `/files/read` | Read file content |
+| POST | `/files/write` | Write file content |
+| DELETE | `/files/delete` | Delete file or directory |
+| POST | `/files/mkdir` | Create directory |
+| POST | `/files/upload` | Upload file to directory |
+| POST | `/files/rename` | Rename file or folder |
+| GET | `/database/tables` | List database tables |
+| GET | `/database/table-data` | Browse table rows |
+| POST | `/database/search-replace` | Search & replace |
+| POST | `/database/optimize` | Optimize tables |
+| POST | `/database/query` | Run SQL query |
+| POST | `/database/row` | Insert table row |
+| PUT | `/database/row` | Update table row |
+| DELETE | `/database/row` | Delete table row |
+| GET | `/database/export` | Export table as SQL dump |
+| GET | `/system` | System information |
+| GET | `/maintenance` | Maintenance status & appearance settings |
+| POST | `/maintenance/toggle` | Toggle maintenance + save settings |
+| POST | `/maintenance/settings` | Save appearance settings without toggling |
+| GET | `/users` | List users |
+| POST | `/users/change-role` | Change user role |
+| POST | `/users/login-as` | Generate login-as token |
+| DELETE | `/users/delete` | Delete user |
+| POST | `/users/rename` | Rename user login |
+| GET | `/notes` | List notes |
+| POST | `/notes` | Create note |
+| PUT | `/notes/{id}` | Update note |
+| DELETE | `/notes/{id}` | Delete note |
+| GET | `/debug` | Debug status |
+| POST | `/debug/toggle` | Toggle debug constants |
+| GET | `/debug/log` | Read error log |
+| DELETE | `/debug/log/clear` | Clear error log |
+| GET | `/images/settings` | Image settings |
+| POST | `/images/settings` | Save image settings |
+| POST | `/images/regenerate` | Regenerate thumbnails |
+| POST | `/images/convert` | Batch convert images to WebP/AVIF |
+| GET | `/images/convert-stats` | Conversion stats (total/converted/remaining) |
+| DELETE | `/images/convert` | Delete all sidecar files for a format |
+| GET | `/reset/status` | Get content counts |
+| POST | `/reset/execute` | Execute site reset |
+| GET | `/security` | Admin URL protection status |
+| POST | `/security/admin-url` | Enable/update custom login slug |
+| DELETE | `/security/admin-url` | Disable admin URL protection |
+| GET | `/cron/events` | List all scheduled cron events |
+| POST | `/cron/run` | Trigger a cron event immediately |
+| DELETE | `/cron/event` | Delete / unschedule a cron event |
+| GET | `/cron/schedules` | List all registered schedules |
+| POST | `/cron/schedules` | Create a custom schedule |
+| DELETE | `/cron/schedules` | Delete a custom schedule |
+| GET | `/cron/health` | Cron health status and real-cron hints |
+| GET | `/media/overview` | Stats: total attachments, uploads size, orphaned/unused/duplicate counts |
+| GET | `/media/orphaned` | List attachments with missing physical files |
+| DELETE | `/media/orphaned` | Bulk delete orphaned attachments by ID array |
+| GET | `/media/unused` | List unattached, unreferenced attachments with thumbnails |
+| DELETE | `/media/unused` | Bulk delete unused attachments by ID array |
+| GET | `/media/duplicates` | Group attachments by MD5 hash; returns wasted-space totals |
+| DELETE | `/media/duplicate` | Delete a single duplicate attachment |
+| GET | `/media/compress-candidates` | List JPEG/PNG attachments with file sizes |
+| POST | `/media/compress` | Re-compress one attachment; returns before/after sizes |
+| GET | `/security/overview` | All security feature states in one call |
+| POST | `/security/limiter` | Save login limiter settings |
+| GET | `/security/lockouts` | List lockout log entries |
+| DELETE | `/security/lockouts` | Clear all lockout log entries |
+| POST | `/security/lockouts/unlock` | Unlock a specific IP |
+| GET | `/security/ip-blocklist` | List blocked IPs |
+| POST | `/security/ip-blocklist` | Add IP or CIDR to blocklist |
+| DELETE | `/security/ip-blocklist` | Remove IP from blocklist |
+| POST | `/security/hardening` | Save XML-RPC / hide-version settings |
+| POST | `/security/integrity` | Run core file integrity check |
+| GET | `/security/2fa` | Get 2FA status for current user |
+| POST | `/security/2fa/setup` | Generate TOTP secret + QR URL |
+| POST | `/security/2fa/verify` | Verify code and activate 2FA |
+| DELETE | `/security/2fa` | Disable 2FA for current user |
+| GET | `/snippets` | List snippets |
+| POST | `/snippets` | Create snippet |
+| PUT | `/snippets/{id}` | Update snippet |
+| POST | `/snippets/{id}/toggle` | Toggle snippet enabled state |
+| DELETE | `/snippets/{id}` | Delete snippet |
+| GET | `/redirects` | List redirects |
+| POST | `/redirects` | Create redirect |
+| PUT | `/redirects/{id}` | Update redirect |
+| DELETE | `/redirects/{id}` | Delete redirect |
+| POST | `/redirects/export` | Export redirects as CSV |
+| GET | `/redirects/download` | Download CSV export |
+| POST | `/redirects/import` | Import redirects from CSV |
+| GET | `/email/settings` | SMTP settings |
+| POST | `/email/settings` | Save SMTP settings |
+| POST | `/email/test` | Send test email |
+| GET | `/email/log` | Email log |
+| DELETE | `/email/log/clear` | Clear email log |
+| GET | `/backup` | List backups |
+| POST | `/backup/create` | Create backup |
+| POST | `/backup/download` | Prepare backup for download |
+| GET | `/backup/serve` | Stream backup file |
+| DELETE | `/backup/delete` | Delete backup |
+| GET | `/backup/schedule` | Get scheduled backup config |
+| POST | `/backup/schedule` | Save scheduled backup config |
+| GET | `/settings` | Get branding settings |
+| POST | `/settings` | Save branding settings |
+| GET | `/audit` | Audit log entries |
+| DELETE | `/audit/clear` | Clear audit log |
+| POST | `/audit/export` | Export audit log as CSV |
+| GET | `/audit/download` | Download CSV export |
+| GET | `/audit/action-types` | Available action type filters |
+| GET | `/developer/hooks` | Browse all WordPress hooks |
+| GET | `/developer/rest-routes` | List all registered REST routes |
+| POST | `/developer/rest-request` | Proxy an authenticated REST request |
+| POST | `/developer/generate` | Generate dummy posts/pages/users/products |
+| GET | `/developer/dummy-stats` | Count dummy-tagged items |
+| DELETE | `/developer/dummy` | Delete all dummy-tagged items |
+| GET | `/developer/rewrite-test` | Test URL against rewrite rules |
+| GET | `/developer/cache-keys` | Browse object cache keys by prefix |
+| GET | `/developer/cache-value` | Get a specific cache key value |
+| DELETE | `/developer/cache-key` | Delete a specific cache key |
+| GET | `/developer/prefix-info` | Get current DB prefix + table list |
+| POST | `/developer/change-prefix` | Rename database table prefix |
+| GET | `/scanner/file` | Read file content around a flagged line |
+| DELETE | `/scanner/file` | Delete a flagged file |
+| POST | `/scanner/quarantine` | Move file to `wmp-quarantine/` directory |
+| POST | `/scanner/ignore` | Add file to scanner ignore list |
+| GET | `/scanner/ignored` | List ignored files |
+
+## Endpoint groups
+
+<CardGroup cols={2}>
+  <Card title="Dashboard" icon="gauge" href="/api/dashboard">
+    Site stats, health info, and recent activity.
+  </Card>
+  <Card title="Plugins" icon="plug" href="/api/plugins">
+    List, activate, install, update, and export plugins.
+  </Card>
+  <Card title="Themes" icon="palette" href="/api/themes">
+    List, activate, install, update, and export themes.
+  </Card>
+  <Card title="Files" icon="folder" href="/api/files">
+    Browse, read, write, upload, and manage server files.
+  </Card>
+  <Card title="Database" icon="database" href="/api/database">
+    Browse tables, run queries, search & replace, and export SQL.
+  </Card>
+  <Card title="Users" icon="users" href="/api/users">
+    List users, change roles, login-as, delete, and rename.
+  </Card>
+  <Card title="Maintenance" icon="wrench" href="/api/maintenance">
+    Toggle maintenance mode and manage appearance settings.
+  </Card>
+  <Card title="Debug" icon="bug" href="/api/debug">
+    Read and toggle WP_DEBUG constants and the error log.
+  </Card>
+</CardGroup>
