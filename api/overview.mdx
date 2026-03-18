@@ -177,6 +177,70 @@ All responses are JSON. Successful responses include an HTTP `2xx` status code. 
 | POST | `/scanner/quarantine` | Move file to `wmp-quarantine/` directory |
 | POST | `/scanner/ignore` | Add file to scanner ignore list |
 | GET | `/scanner/ignored` | List ignored files |
+| DELETE | `/scanner/ignored` | Remove file from ignore list |
+| GET | `/scanner/malware` | Run malware scan |
+| GET | `/scanner/vulns` | Check plugin/theme vulnerabilities (WPScan) |
+| GET | `/scanner/ssl` | SSL certificate check |
+| GET | `/scanner/core` | WordPress core version check |
+| GET | `/scanner/api-key` | Get WPScan API key (masked) |
+| POST | `/scanner/api-key` | Save WPScan API key |
+| GET | `/content/post-types` | List public post types |
+| GET | `/content/authors` | List users with edit_posts capability |
+| GET | `/content/posts` | Paginated post list with filters |
+| POST | `/content/posts/bulk-edit` | Bulk edit post status or author |
+| POST | `/content/posts/duplicate` | Duplicate a post as a draft |
+| GET | `/content/scheduled` | List all scheduled posts |
+| GET | `/content/options` | Paginated wp_options table |
+| GET | `/content/options/{name}` | Get a single option value |
+| POST | `/content/options` | Update an option |
+| DELETE | `/content/options` | Delete an option |
+| GET | `/dev-tools/wp-config` | Read wp-config.php constants |
+| POST | `/dev-tools/wp-config` | Update a wp-config.php constant |
+| GET | `/dev-tools/htaccess` | Read .htaccess content |
+| POST | `/dev-tools/htaccess` | Write .htaccess content |
+| GET | `/dev-tools/phpinfo` | PHP configuration info |
+| GET | `/dev-tools/query-monitor` | Database queries for this request |
+| GET | `/dev-tools/environment` | Server environment variables |
+| POST | `/dev-tools/environment` | Set a runtime environment variable |
+| GET | `/performance/overview` | Object cache, transient, and DB stats |
+| GET | `/performance/transients` | Paginated transient list |
+| DELETE | `/performance/transients` | Delete a transient |
+| POST | `/performance/transients/purge-expired` | Purge all expired transients |
+| POST | `/performance/cleanup` | Run database cleanup operations |
+| GET | `/performance/object-cache` | Object cache diagnostics |
+| POST | `/performance/object-cache/flush` | Flush the object cache |
+| POST | `/performance/object-cache/drop-in` | Install/update/remove cache drop-in |
+| GET | `/updates/available` | List pending plugin/theme/core updates |
+| GET | `/updates/changelog` | Changelog for a specific item |
+| POST | `/updates/run` | Run one or more updates |
+| POST | `/updates/rollback` | Roll back an update |
+| GET | `/updates/history` | Update history log |
+| DELETE | `/updates/history/clear` | Clear update history |
+| GET | `/updates/scheduled` | List scheduled update jobs |
+| POST | `/updates/schedule` | Schedule an update |
+| POST | `/updates/schedule/cancel` | Cancel a scheduled update |
+| GET | `/updates/check-self` | Check for WP Manager Pro self-update |
+| GET | `/agency/mail-settings` | Mail interceptor settings and log |
+| GET | `/agency/mail-log` | Paginated mail log |
+| DELETE | `/agency/mail-log/clear` | Clear mail log |
+| POST | `/agency/mail-resend` | Resend a logged email |
+| GET | `/agency/login-page` | White-label login page settings |
+| POST | `/agency/login-page` | Save login page settings |
+| GET | `/agency/admin-customiser` | Admin UI visibility settings |
+| POST | `/agency/admin-customiser` | Save admin UI settings |
+| GET | `/agency/report` | Generate client health report |
+| GET | `/agency/coming-soon` | Coming soon page settings |
+| POST | `/agency/coming-soon` | Save coming soon settings |
+| DELETE | `/agency/coming-soon/emails/clear` | Clear captured email subscribers |
+| POST | `/plugins/check-updates` | Force-check for plugin updates |
+| POST | `/plugins/bulk-activate` | Bulk activate plugins |
+| POST | `/plugins/bulk-deactivate` | Bulk deactivate plugins |
+| DELETE | `/plugins/bulk-delete` | Bulk delete plugins |
+| POST | `/plugins/bulk-update` | Bulk update plugins |
+| POST | `/themes/check-updates` | Force-check for theme updates |
+| GET | `/settings/export` | Export plugin settings as JSON |
+| POST | `/settings/import` | Import plugin settings from JSON |
+| GET | `/settings/export-wp-xml` | Export WordPress content as XML |
 
 ## Endpoint groups
 
@@ -204,5 +268,56 @@ All responses are JSON. Successful responses include an HTTP `2xx` status code. 
   </Card>
   <Card title="Debug" icon="bug" href="/api/debug">
     Read and toggle WP_DEBUG constants and the error log.
+  </Card>
+  <Card title="Images" icon="image" href="/api/images">
+    WebP/AVIF conversion, thumbnail regeneration, and sidecar management.
+  </Card>
+  <Card title="Security" icon="shield" href="/api/security">
+    Admin URL protection, login limiter, IP blocklist, integrity check, and 2FA.
+  </Card>
+  <Card title="Cron" icon="clock" href="/api/cron">
+    Manage scheduled events and custom cron schedules.
+  </Card>
+  <Card title="Media" icon="photo-video" href="/api/media">
+    Orphaned, unused, duplicate media cleanup and compression.
+  </Card>
+  <Card title="Snippets" icon="code" href="/api/snippets">
+    Create and manage PHP/CSS/JS code snippets.
+  </Card>
+  <Card title="Redirects" icon="arrow-right" href="/api/redirects">
+    301/302/307/308 redirect CRUD with CSV import/export.
+  </Card>
+  <Card title="Email" icon="envelope" href="/api/email">
+    SMTP configuration, test email, and email log.
+  </Card>
+  <Card title="Backup" icon="archive" href="/api/backup">
+    Manual and scheduled SQL backups.
+  </Card>
+  <Card title="Audit" icon="list" href="/api/audit">
+    Plugin, theme, user, and post event log.
+  </Card>
+  <Card title="Developer" icon="terminal" href="/api/developer">
+    Hook explorer, REST tester, dummy data, rewrite rules, cache browser.
+  </Card>
+  <Card title="Scanner" icon="scan" href="/api/scanner">
+    Malware scan, vulnerability check, SSL monitor, and file actions.
+  </Card>
+  <Card title="Settings" icon="settings" href="/api/settings">
+    Plugin branding/white-label settings.
+  </Card>
+  <Card title="Content" icon="file-text" href="/api/content">
+    Bulk post editor, duplicator, scheduled posts, and wp_options.
+  </Card>
+  <Card title="Dev Tools" icon="file-code" href="/api/dev-tools">
+    wp-config.php, .htaccess, PHP info, query monitor, environment.
+  </Card>
+  <Card title="Updates" icon="refresh-cw" href="/api/updates">
+    Update manager with history, rollback, and scheduling.
+  </Card>
+  <Card title="Agency" icon="building" href="/api/agency">
+    Mail interceptor, login page, admin customiser, client reports, coming soon.
+  </Card>
+  <Card title="Performance" icon="zap" href="/api/performance">
+    Object cache, transients, DB cleanup, and cache drop-in.
   </Card>
 </CardGroup>

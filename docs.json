@@ -73,6 +73,7 @@
             "group": "Developer Tools",
             "pages": [
               "features/developer-utilities",
+              "features/dev-tools",
               "features/code-snippets",
               "features/database-tools"
             ]
@@ -88,12 +89,19 @@
           {
             "group": "Content & Data",
             "pages": [
+              "features/content-tools",
               "features/redirect-manager",
               "features/email-smtp",
               "features/database-backup",
               "features/audit-log",
               "features/notes",
               "features/reset-tools"
+            ]
+          },
+          {
+            "group": "Updates",
+            "pages": [
+              "features/update-manager"
             ]
           },
           {
@@ -138,7 +146,12 @@
               "api/audit",
               "api/developer",
               "api/scanner",
-              "api/settings"
+              "api/settings",
+              "api/content",
+              "api/dev-tools",
+              "api/updates",
+              "api/agency",
+              "api/performance"
             ]
           }
         ]
